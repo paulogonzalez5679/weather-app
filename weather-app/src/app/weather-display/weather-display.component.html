@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="mat-typography title">
+    <h1>
+      Current weather in <b>{{ name }}, {{ country }}</b>
+    </h1>
+  </div>
+  <mat-card class="main">
+    <mat-card-content>
+      <mat-spinner *ngIf="!loaded"></mat-spinner>
+      <div *ngIf="loaded" class="content">
+        <div>
+          <img [src]="iconUrl" alt=" icon" />
+          <p
+            [ngClass]="{
+              blue: temperature < 5,
+              yellow: 5 < temperature && temperature < 15,
+              orange: 15 < temperature && temperature < 25,
+              red: temperature > 25
+            }"
+          >
+            {{ temperature }}&deg;C
+          </p>
+          <p>
+            Current weather:
+            {{ currentWeather.current.condition.text }}
+          </p>
+          <p><b>Local Time:</b> {{ localTime }}</p> <!-- Mostrar hora local -->
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div>
+          <p style="margin-top: 10px">
+            Feels like: {{ temperatureFeelsLike }}&deg;C
+          </p>
+          <p>Pressure: {{ currentWeather.current.pressure_mb }} hPa</p> <!-- Cambié la unidad de presión a hPa -->
+          <p>Humidity: {{ currentWeather.current.humidity }}%</p>
+          <p>Wind: {{ currentWeather.current.wind_kph }} km/h</p> <!-- Cambié la unidad a km/h -->
+          <p>Clouds: {{ currentWeather.current.cloud }}%</p> <!-- Cambié el nombre del objeto "cloud" -->
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Botón para agregar o eliminar de favoritos -->
+  <button mat-raised-button color="primary" (click)="toggleFavorite()">
+    {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+  </button>
+
+  <!-- Botón para comprobar otra ubicación -->
+  <button mat-raised-button color="secondary" (click)="goToAnotherLocation()">Check another location</button>
+</div>

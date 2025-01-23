@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.sass'],
 })
-export class AppComponent {
-  title = 'weather-app';
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem('locationHistory');
+      localStorage.removeItem('favorites');
+    });
+  }
 }
