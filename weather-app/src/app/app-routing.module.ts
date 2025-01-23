@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   { path: 'location-history', component: LocationHistoryComponent },
   { path: '', redirectTo: '/location-history', pathMatch: 'full' },
-  { path: 'favorites', component: FavoritesComponent }, // Ruta para favoritos
+  { path: 'favorites', component: FavoritesComponent },
 ];
 
 @NgModule({

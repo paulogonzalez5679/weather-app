@@ -16,12 +16,12 @@ export class WeatherDisplayComponent implements OnInit {
   localTime: string = '';
   iconUrl = '';
   loaded = false;
-  isFavorite: boolean = false;  // Para verificar si la ciudad está en favoritos
+  isFavorite: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiHttpService,
-    private router: Router // Inyectamos el Router
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -42,12 +42,12 @@ export class WeatherDisplayComponent implements OnInit {
           this.temperature = Math.round(this.currentWeather.current.temp_c);
           this.temperatureFeelsLike = Math.round(this.currentWeather.current.feelslike_c);
 
-          // Obteniendo la hora local directamente desde la respuesta de la API
+
           this.localTime = this.currentWeather.location.localtime;
 
           this.loaded = true;
 
-          // Verificamos si esta ciudad está en favoritos
+
           this.checkIfFavorite(info.name, info.country);
         },
         error: (err) => console.error(err),
@@ -55,7 +55,7 @@ export class WeatherDisplayComponent implements OnInit {
     });
   }
 
-  // Verifica si la ciudad está en los favoritos
+
   checkIfFavorite(name: string, country: string): void {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     const isAlreadyFavorite = favorites.some(
@@ -64,21 +64,21 @@ export class WeatherDisplayComponent implements OnInit {
     this.isFavorite = isAlreadyFavorite;
   }
 
-  // Añadir o eliminar de los favoritos
+
   toggleFavorite(): void {
     let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
     if (this.isFavorite) {
-      // Eliminar de los favoritos
+
       favorites = favorites.filter(
         (item: any) => item.name !== this.name || item.country !== this.country
       );
     } else {
-      // Agregar a los favoritos
+
       favorites.push({ name: this.name, country: this.country, lat: this.route.snapshot.queryParamMap.get('lat'), lon: this.route.snapshot.queryParamMap.get('lon') });
     }
 
-    // Guardar en localStorage
+
     localStorage.setItem('favorites', JSON.stringify(favorites));
     this.isFavorite = !this.isFavorite;
   }

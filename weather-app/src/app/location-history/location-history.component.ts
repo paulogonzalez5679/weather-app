@@ -13,7 +13,7 @@ export class LocationHistoryComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Recuperar el historial desde el localStorage
+
     const storedHistory = localStorage.getItem('locationHistory');
     if (storedHistory) {
       this.history = JSON.parse(storedHistory);
@@ -22,7 +22,7 @@ export class LocationHistoryComponent implements OnInit {
   }
 
   viewWeather(location: Location): void {
-    // Navegar al componente del clima de la ciudad seleccionada
+
     this.router.navigate(['/weather'], {
       queryParams: {
         name: location.name,

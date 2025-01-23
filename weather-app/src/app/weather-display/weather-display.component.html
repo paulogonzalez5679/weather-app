@@ -24,27 +24,27 @@
             Current weather:
             {{ currentWeather.current.condition.text }}
           </p>
-          <p><b>Local Time:</b> {{ localTime }}</p> <!-- Mostrar hora local -->
+          <p><b>Local Time:</b> {{ localTime }}</p>
         </div>
         <mat-divider [vertical]="true"></mat-divider>
         <div>
           <p style="margin-top: 10px">
             Feels like: {{ temperatureFeelsLike }}&deg;C
           </p>
-          <p>Pressure: {{ currentWeather.current.pressure_mb }} hPa</p> <!-- Cambié la unidad de presión a hPa -->
+          <p>Pressure: {{ currentWeather.current.pressure_mb }} hPa</p>
           <p>Humidity: {{ currentWeather.current.humidity }}%</p>
-          <p>Wind: {{ currentWeather.current.wind_kph }} km/h</p> <!-- Cambié la unidad a km/h -->
-          <p>Clouds: {{ currentWeather.current.cloud }}%</p> <!-- Cambié el nombre del objeto "cloud" -->
+          <p>Wind: {{ currentWeather.current.wind_kph }} km/h</p>
+          <p>Clouds: {{ currentWeather.current.cloud }}%</p>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
 
-  <!-- Botón para agregar o eliminar de favoritos -->
+
   <button mat-raised-button color="primary" (click)="toggleFavorite()">
     {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
   </button>
 
-  <!-- Botón para comprobar otra ubicación -->
+
   <button mat-raised-button color="secondary" (click)="goToAnotherLocation()">Check another location</button>
 </div>

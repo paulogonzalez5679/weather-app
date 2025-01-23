@@ -13,41 +13,41 @@ import { debounceTime, switchMap, map } from 'rxjs/operators';
 export class SearchLocationComponent implements OnInit, OnDestroy {
   searched = false;
   loaded = false;
-  errorMessage: string = '';  // Nueva propiedad para el mensaje de error
+  errorMessage: string = '';
   displayedColumns: string[] = ['name', 'country'];
-  dataSource: Location[] = [];  // Aquí usas la interfaz Location
+  dataSource: Location[] = [];
   searchSubject = new Subject<string>();
   localTime: any;
-  history: Location[] = [];  // Historial de ubicaciones, también de tipo Location
+  history: Location[] = [];
   showLocationHistory: boolean = false;
   showFavorite: boolean = false;
 
   constructor(private apiService: ApiHttpService, private router: Router) {
-    // Leer el historial desde el localStorage
+
     const storedHistory = localStorage.getItem('locationHistory');
     if (storedHistory) {
       this.history = JSON.parse(storedHistory);
     }
 
-    // Lógica de búsqueda con el debounce
+
     this.searchSubject.pipe(
       debounceTime(500),
       switchMap((cityCountry: string) => this.getLocations(cityCountry))
     ).subscribe({
       next: (data) => {
         if (data && data.length > 0) {
-          this.dataSource = data as Location[]; // Asegurarse que los datos son de tipo Location[]
+          this.dataSource = data as Location[];
           this.searched = true;
           this.loaded = true;
-          this.errorMessage = ''; // Limpiar el mensaje de error si se encuentran ubicaciones
+          this.errorMessage = '';
         } else {
-          this.errorMessage = 'City not found. Please check your spelling.';  // Mensaje de error si no se encuentran resultados
+          this.errorMessage = 'City not found. Please check your spelling.';
           this.searched = true;
           this.loaded = true;
         }
       },
       error: (err) => {
-        this.errorMessage = 'City not found. Please check your spelling.';  // Mensaje de error si ocurre un error en la llamada
+        this.errorMessage = 'City not found. Please check your spelling.';
         this.searched = true;
         this.loaded = true;
       },
@@ -74,7 +74,7 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
       this.dataSource = [];
       this.searched = false;
       this.loaded = false;
-      this.errorMessage = '';  // Limpiar el mensaje de error
+      this.errorMessage = '';
       return new Observable<Location[]>();
     }
 
@@ -82,7 +82,7 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
     const city = data.city;
     if (!city) {
       console.error('Missing parameters in query');
-      this.errorMessage = 'City not found. Please check your spelling.';  // Mensaje de error si no se encuentra la ciudad
+      this.errorMessage = 'City not found. Please check your spelling.';
       return new Observable<Location[]>();
     }
     const country = data.country;
@@ -91,7 +91,7 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
     return this.apiService.get(fetchUrl).pipe(
       map((response: any) => {
         if (response && response.length > 0) {
-          // Si hay resultados, mapeamos la respuesta
+
           return response.map((item: any) => ({
             name: item.name,
             lat: item.lat,
@@ -99,8 +99,8 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
             country: item.country,
           }));
         } else {
-          // Si la respuesta está vacía, asignamos el mensaje de error
-          this.errorMessage = 'City not found. Please check your spelling.';  // Mensaje de error
+
+          this.errorMessage = 'City not found. Please check your spelling.';
           return [];
         }
       })
@@ -112,16 +112,16 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
   }
 
   selectedLocation(selectedLocation: Location) {
-    // Agregar la ubicación al historial
+
     this.history.unshift(selectedLocation);
     if (this.history.length > 5) {
       this.history.pop();
     }
 
-    // Guardar el historial en el localStorage
+
     localStorage.setItem('locationHistory', JSON.stringify(this.history));
 
-    // Navegar a la vista de clima para la ciudad seleccionada
+
     this.router.navigate(['/weather'], {
       queryParams: {
         name: selectedLocation.name,
@@ -132,7 +132,7 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Función para obtener ciudad y país de un string de entrada
+
   getCityAndCountry(inputString: string) {
     const location = inputString.split(',', 2);
     const trimmedLocation = location.map((element) => {
@@ -156,7 +156,7 @@ export class SearchLocationComponent implements OnInit, OnDestroy {
 
 }
 
-// Definición de la interfaz Location
+
 interface Location {
   name: string;
   lat: number;

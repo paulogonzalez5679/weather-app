@@ -3,7 +3,6 @@
     <h1>Favorites</h1>
   </div>
 
-  <!-- Si hay favoritos, muestra la tabla -->
   <mat-card *ngIf="favorites.length > 0" class="main">
     <mat-card-content>
       <table mat-table [dataSource]="favorites" class="mat-elevation-z2">
@@ -30,22 +29,18 @@
             <button mat-button (click)="removeFavorite(element)">Remove</button>
           </td>
         </ng-container>
-
-        <!-- Fila de cabecera y filas de datos -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </mat-card-content>
   </mat-card>
 
-  <!-- Mensaje si no hay favoritos -->
   <mat-card *ngIf="favorites.length === 0" class="main">
     <mat-card-content>
       <p>No favorites found.</p>
     </mat-card-content>
   </mat-card>
 
-  <!-- Botón para regresar a la página de inicio -->
   <div class="back-button">
     <button mat-raised-button color="primary" (click)="goBack()">Back to Home</button>
   </div>
